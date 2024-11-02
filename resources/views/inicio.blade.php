@@ -81,7 +81,7 @@
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
                           <p class="card-category">Citas de hoy</p>
-                          <h4 class="card-title">{{ $d }}</h4>
+                          <h4 class="card-title">{{ $nowAppointments }}</h4>
                         </div>
                       </div>
                     </div>

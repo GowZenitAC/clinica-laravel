@@ -29,7 +29,7 @@
               <div class="card-body p-md-5 mx-md-4">
 
                 <div class="text-center">
-                  <img src="{{ asset('assets/img/CFElogo.svg') }}"
+                  <img src="{{ asset('assets/img/logoclinica.jpg') }}"
                     style="width: 185px;" alt="logo">
                 </div>
 
@@ -97,7 +97,7 @@
             </div>
             <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
               <div class="text-white px-3 py-4 p-md-5 mx-md-4">
-                <h4 class="mb-4">Sistema de Gestión de Mantenimientos</h4>
+                <h4 class="mb-4">Clinica IntegrIZA</h4>
               </div>
             </div>
           </div>
