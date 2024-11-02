@@ -24,10 +24,10 @@
                 </div>
             </div>
             <div class="modal-footer">
-             <input type="checkbox" name="" class="form-check-input" id="">   
-             <label for="">Confirmar asistencia</label>
+             <input onclick="confirmAsistance()" type="checkbox" name="" class="form-check-input" id="checkAsistencia">   
+             <label id="labelAsistencia" for="">Confirmar Asistencia</label>
+             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             <button type="button" id="deleteCita" class="btn btn-danger" data-bs-dismiss="modal">Eliminar</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button" onclick="editCita()" class="btn btn-primary">Editar Cita</button>
             </div>
         </div>

@@ -1,0 +1,2 @@
+<input type="number" class="form-control" id="citas_a_tomar" name="citas_a_tomar" placeholder="Ingrese el numero de terapias a actualizar">
+<button type="button" class="btn btn-primary mt-2" id="saveCitas">Actualizar</button>

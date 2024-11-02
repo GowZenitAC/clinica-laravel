@@ -66,6 +66,15 @@
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="citasTomar">Citas a Tomar (hasta nueva valoracion)</label>
+                                <input type="number" value="{{ $pacientes->citas_a_tomar }}" name="citas_a_tomar" class="form-control" id="citasTomar" placeholder="Ingrese el número de terapias a tomar" />
+                            </div>
+                            @error('telefono')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
                     <!-- Información  -->
                     <h5>Informacion Médica</h5>

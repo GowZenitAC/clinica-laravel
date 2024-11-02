@@ -1,4 +1,4 @@
-const URL = 'http://127.0.0.1:8000/agenda';
+let URL = 'http://127.0.0.1:8000/agenda';
 let calendar;
 let title,
     nombre_paciente,
@@ -7,6 +7,7 @@ let title,
     id_paciente,
     namePaciente,
     id_cita,
+    estado,
     pacientes = [];
 const originalSelectPacienteHTML = document.querySelector('#selectPaciente').outerHTML;
 const checkPac = document.querySelector('#checkPaciente');
@@ -63,8 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 const showModalEdit = (data) => {
   namePaciente = pacientes.find(item => item.id === data.extendedProps.id_paciente)?.nombre ?? data.extendedProps.nombre_paciente; //using nullish coalescing ?? (check if null or undefined)
-    // namePaciente = ? pacientes.find(item => item.id === data.extendedProps.id_paciente).nombre : data.extendedProps.nombre_paciente; 
-
+    checkAsistance(data.extendedProps.estado);
     id_paciente = data.extendedProps.id_paciente;
     $('#pacienteInputEditar').val(namePaciente);
     $('#titleInputEditar').val(data.title);
@@ -90,19 +90,23 @@ const formatDateHour = (date) => {
 const saveCita = () => {
   title =  $('#pacienteInput').val();
   nombre_paciente =  $('#pacienteInput2').val();
+  const isManualPaciente = $('#pacienteInput2').length > 0;
     const data = {
         'title': title,
         'start': start,
         'end': end ? end : '',
         'id_paciente': id_paciente ? parseInt(id_paciente) : '',
         'nombre_paciente': nombre_paciente ? nombre_paciente : '',
+        'estado': 'Pendiente',
     }
     console.log(data);
     axios.post(URL, data).then((response) => {
         console.log(response);
         $('#myModal').modal('hide');
         $('#pacienteInput').val('');
+        if (!isManualPaciente) {
         $('#selectPaciente').selectize()[0].selectize.clear();
+        }
         $('#pacienteInput2').val('');
         calendar.refetchEvents();
     }).catch((error) => {
@@ -195,3 +199,44 @@ checkPac.addEventListener('change', (e) => {
         
     }
 })
+
+ const updateAsistance =async () => {
+    const data = {
+        'id': parseInt(id_cita),
+        'estado': estado
+    }
+    // console.log(data);
+    await axios.patch(`${URL}/confirmAsistance/${id_cita}`, data).then((response) => {
+        console.log(response);
+        calendar.refetchEvents();
+    }).catch((error) => {
+        console.log(error);
+    })
+}
+const confirmAsistance = () => {
+    if ($('#checkAsistencia').is(':checked')) {
+        estado = 'Asistió';
+        $('#checkAsistencia').prop('checked', true);
+        $('#checkAsistencia').attr('disabled', true);
+        $('#labelAsistencia').text('Asistió');
+        $('#labelAsistencia').css('margin-right', '5em'); 
+        updateAsistance()
+    }else{
+        estado = 'Pendiente';
+        console.log(estado);
+    }
+
+}
+const checkAsistance = (data) => {
+    if (data === 'Asistió') {
+        $('#checkAsistencia').prop('checked', true);
+        $('#checkAsistencia').attr('disabled', true);
+        $('#labelAsistencia').text('Asistió');
+        $('#labelAsistencia').css('margin-right', '5em');  
+    }else{
+        $('#checkAsistencia').prop('checked', false);
+        $('#checkAsistencia').attr('disabled', false);
+        $('#labelAsistencia').text('Confirmar Asistencia');
+        $('#labelAsistencia').css('margin-right', '0em');
+    }
+}

@@ -30,6 +30,7 @@
                             <th>Paciente</th>
                             <th>Especialidad</th>
                             <th>Diagnostico</th>
+                            <th>Estado</th>
                             <th style="width: 10%">Acciones</th>
                           </tr>
                         </thead>
@@ -39,6 +40,7 @@
                             <td>{{ $paciente->nombre }}</td>
                             <td>{{ $paciente->especialidades->nombre }}</td>
                             <td>{{ $paciente->diagnostico }}</td>
+                            @include('components.badge-pacientes')
                             <td>
                               <div class="form-button-action">
                               <a
@@ -83,6 +85,6 @@
               </div>
 @endsection
 @push('scripts')
-<script src="{{asset('assets/js/pacientes.js')}}"></script>
+<script src="{{asset('assets/js/pacientes/pacientes.js')}}"></script>
 @endpush
-
+        

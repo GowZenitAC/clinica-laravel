@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Agenda;
+use App\Models\Paciente;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +25,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+       $a = Paciente::count();
+       $b = Paciente::query()->where('status', 'Activo')->count();
+       $c = Agenda::query()->where('estado', 'Pendiente')->count();
+       $d = Agenda::count();
+        return view('inicio', compact('a', 'b', 'c', 'd'));
     }
 }

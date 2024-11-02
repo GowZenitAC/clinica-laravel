@@ -53,6 +53,7 @@ class PacienteController extends Controller
             'fecha_valoracion' => 'required',
             'seguimiento' => 'required',
             'id_especialidad' => 'required',
+            'citas_a_tomar' => 'required',
         ]);
 
         
@@ -70,6 +71,7 @@ class PacienteController extends Controller
             'observaciones' => $request->observaciones,
             'seguimiento' => $request->seguimiento,
             'id_especialidad' => $id_es_convert,
+            'citas_a_tomar' => $request->citas_a_tomar
         ]);
         toastify()->success('Equipo creado correctamente', [
             'duration' => 3500,
@@ -86,8 +88,8 @@ class PacienteController extends Controller
     {
         //
         $pacientes = Paciente::findOrFail($id);
-        $citas_count = Agenda::with('paciente')->where('id_paciente', $id)->count();
-        return view('pacientes.pacientes-show', compact('pacientes', 'citas_count'));
+        $citas_paciente_hechas = Paciente::citasHechas($id);
+        return view('pacientes.pacientes-show', compact('pacientes', 'citas_paciente_hechas'));
     }
 
     /**
@@ -127,5 +129,15 @@ class PacienteController extends Controller
         $pacientes = Paciente::findOrFail($id);
         $pacientes->delete();
         return redirect()->route('pacientes.index');
+    }
+
+    public function updateAppointments(Request $request, string $id){
+        $request->validate([
+            'citas_a_tomar' => 'required',
+        ]);
+        $pacientes =  Paciente::findOrFail($id);
+        $pacientes->update([
+            'citas_a_tomar' => $pacientes->citas_a_tomar + $request->citas_a_tomar
+        ]);
     }
 }

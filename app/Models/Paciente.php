@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Agenda;
 
 class Paciente extends Model
 {
@@ -21,7 +22,8 @@ class Paciente extends Model
         'historial',
         'observaciones',
         'seguimiento',
-        'id_especialidad'
+        'id_especialidad',
+        'citas_a_tomar'
     ];
 
 
@@ -39,5 +41,9 @@ class Paciente extends Model
         $especialidad_user = auth()->user()->especialidad_id;
         return self::query()->where('id_especialidad', $especialidad_user)->get(); 
         
+    }
+
+    public static function citasHechas($id){
+        return Agenda::with('paciente')->where('id_paciente', $id)->where('estado', 'Asistió')->count();
     }
 }

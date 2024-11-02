@@ -43,13 +43,15 @@ class AgendaController extends Controller
             'start' => 'required',
             'id_paciente' => 'nullable',
             'nombre_paciente' => 'nullable',
+            'estado' => 'nullable',
         ]);
 
         Agenda::create([
             'title' => $request->title,
             'start' => $request->start,
             'id_paciente' => $request->id_paciente,
-            'nombre_paciente' => $request->nombre_paciente
+            'nombre_paciente' => $request->nombre_paciente,
+            'estado' => $request->estado
         ]);
         
     }
@@ -94,5 +96,15 @@ class AgendaController extends Controller
         //
         $agenda = Agenda::findOrFail($id);
         $agenda->delete();
+    }
+
+    public function confirmAsistance(Request $request, string $id){
+        $request->validate([
+            'estado' => 'required',
+        ]);
+        $agenda =  Agenda::findOrFail($id);
+        $agenda->update([
+            'estado' => 'Asistió'
+        ]);
     }
 }

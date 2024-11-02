@@ -16,7 +16,8 @@ class Agenda extends Model
         'title',
         'start',
         'id_paciente',
-        'nombre_paciente'
+        'nombre_paciente',
+        'estado'
     ];
 
     public function paciente()

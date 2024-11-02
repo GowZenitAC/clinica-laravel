@@ -29,5 +29,5 @@
 <script src="{{asset('assets/js/plugin/moment/moment.min.js')}}"></script>
 <script src="{{asset('assets/js/plugin/moment/moment-timezone-with-data.min.js')}}"></script>
 <script src="{{ asset('assets/js/plugin/moment/moment-with-locales.js')}}"></script>
-<script src="{{asset('assets/js/agenda.js')}}"></script>
+<script src="{{asset('assets/js/agenda/agenda.js')}}"></script>
 @endpush

@@ -105,6 +105,12 @@ https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js
                 <p>Agenda</p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="{{route('estadistica')}}">
+                <i class="fas fa-chart-pie"></i>
+                <p>Estadística</p>
+              </a>
+            </li>
           </ul>
         </div>
       </div>

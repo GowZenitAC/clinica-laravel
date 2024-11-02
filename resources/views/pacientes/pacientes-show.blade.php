@@ -5,7 +5,7 @@
 @section('content')
 <link rel="stylesheet" href="{{ asset('assets/css/pacientes-show.css') }}">
 <div class="container bg-white rounded ">
-<form>
+    <form>
         @csrf
         <div class="col-md-12">
             <div class="card">
@@ -24,7 +24,7 @@
                                 <label for="fechaNacimiento">Fecha de Nacimiento</label>
                                 <span>{{ $pacientes->fecha_nacimiento }}</span>
                             </div>
-                            
+
                         </div>
                         <div class="col-md-6 col-lg-4">
                             <div class="form-group row">
@@ -60,7 +60,7 @@
                         <div class="col-md-6 col-lg-4">
                             <div class="form-group">
                                 <label for="alergias">Observaciones</label>
-                                <textarea class="form-control" readonly  id="alergias" name="observaciones" rows="3" placeholder="Escriba las observaciones">{{ $pacientes->observaciones }}</textarea>
+                                <textarea class="form-control" readonly id="alergias" name="observaciones" rows="3" placeholder="Escriba las observaciones">{{ $pacientes->observaciones }}</textarea>
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-4">
@@ -77,21 +77,22 @@
                                 <label for="historialMedico">Historial Médico</label>
                                 <textarea readonly class="form-control" id="alergias" name="historial" rows="3" placeholder="Escriba el historial medico"> {{ $pacientes->historial }}</textarea>
                             </div>
-                          
+
                         </div>
                         <div class="col-md-6 col-lg-4">
                             <div class="form-group row">
                                 <label for="fechaNacimiento">Fecha de Valoración</label>
                                 <span>{{ $pacientes->fecha_valoracion }}</span>
                             </div>
-                          
+
                         </div>
                         <div class="col-md-6 col-lg-4">
-                            <div class="form-group row">
-                                <label for="fechaNacimiento">Citas a tomar (hasta nueva valoración)</label>
-                                <span>0/{{$pacientes->citas_a_tomar}}</span>
-                            </div>
-                          
+                            @include('components.edit-icon')
+                            <label class="" for="fechaNacimiento">Citas a tomar (hasta nueva valoración)</label>
+                            <p class="citasContainer">
+                                <span id="citasTomadas">{{$citas_paciente_hechas}}</span>/<span id="citasTotales">{{$pacientes->citas_a_tomar}}</span>
+                            </p>
+                            @include('components.edit_cita_tomar')
                         </div>
                     </div>
                 </div>
@@ -103,3 +104,9 @@
     </form>
 </div>
 @endsection
+
+@push('scripts')
+<script src="{{asset('assets/js/pacientes/pacientes-show.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+@endpush
