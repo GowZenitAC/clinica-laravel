@@ -16,13 +16,14 @@ class CreateAgendaTable extends Migration
         Schema::create('agenda', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('descripcion');
             $table->string('start');
             $table->foreignId('id_paciente')
             ->nullable()
             ->constrained('pacientes')
             ->cascadeOnUpdate()
             ->nullOnDelete();
+            $table->string('nombre_paciente')->nullable();
+            $table->string('estado')->nullable();
         });
     }
 

@@ -30,6 +30,8 @@ class CreatePacientesTable extends Migration
             ->constrained('especialidades')
             ->cascadeOnUpdate()
             ->nullOnDelete();
+            $table->string('status');
+            $table->integer('citas_a_tomar');
         });
     }
 
