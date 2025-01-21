@@ -39,12 +39,13 @@ https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js
 
   <!-- CSS Files -->
   <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" />
+  <link rel="stylesheet" href="{{ asset('assets/css/layout.css') }}">
   <link rel="stylesheet" href="{{asset('assets/css/plugins.min.css')}}" />
   <link rel="stylesheet" href="{{asset('assets/css/kaiadmin.min.css')}}"" />
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel=" stylesheet" href="{{asset('assets/css/demo.css')}}" />
-    @toastifyCss
+  @toastifyCss
 </head>
 
 <body>
@@ -110,6 +111,16 @@ https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js
             </li>
           </ul>
         </div>
+        <div class="sidebar-footer d-flex mt-sidebar justify-content-around align-items-center nav-item">
+          <a href="{{ route('logout') }}" type="button" class="btn btn-danger d-flex justify-content-center align-items-center w-50" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="gap: 8px;">
+            <p class="mb-0">Salir</p>
+            <i class="fas fa-sign-in-alt"></i>
+          </a>
+          <form action="{{ route('logout') }}" method="POST" id="logout-form" class="d-none">
+            @csrf
+          </form>
+        </div>
+
       </div>
     </div>
     <!-- End Sidebar -->
@@ -182,7 +193,7 @@ https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js
                   </form>
                 </ul>
               </li>
-             
+
 
               <li class="nav-item topbar-user dropdown hidden-caret">
                 <a
@@ -270,14 +281,14 @@ https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js
         <div class="container-fluid d-flex justify-content-between">
           <nav class="pull-left">
             <ul class="nav">
-              
+
             </ul>
           </nav>
         </div>
       </footer>
     </div>
   </div>
-  
+
   <!--   Core JS Files   -->
   <!-- <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -317,7 +328,7 @@ https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js
 
   <!-- Kaiadmin JS -->
   <script src="{{asset('assets/js/kaiadmin.min.js')}}"></script>
-  
+
   @stack('scripts')
 </body>
 
