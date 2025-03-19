@@ -77,7 +77,7 @@ https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js
           <ul class="nav nav-secondary">
             <li class="nav-item active">
               <a
-                href="inicio"
+                href="{{route('home')}}"
                 class="collapsed"
                 aria-expanded="false">
                 <i class="fas fa-home"></i>

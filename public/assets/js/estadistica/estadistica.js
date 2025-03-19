@@ -13,8 +13,8 @@ $(document).ready( function () {
      
 });
 const getCitas = async () => {
-    const URL = "http://127.0.0.1:8000/agenda";
-    const response = await axios.get(URL);
+    const URL_AGENDA = "http://127.0.0.1:8000/agenda";
+    const response = await axios.get(URL_AGENDA);
     citas = response.data;
 };
 const showInput = (type) => {

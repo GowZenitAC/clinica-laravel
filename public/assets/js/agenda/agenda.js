@@ -1,4 +1,4 @@
-let URL = 'http://127.0.0.1:8000/agenda';
+let URL_AGENDA = 'http://127.0.0.1:8000/agenda';
 let calendar;
 let title,
     nombre_paciente,
@@ -100,7 +100,7 @@ const saveCita = () => {
         'estado': 'Pendiente',
     }
     console.log(data);
-    axios.post(URL, data).then((response) => {
+    axios.post(URL_AGENDA, data).then((response) => {
         console.log(response);
         $('#myModal').modal('hide');
         $('#pacienteInput').val('');
@@ -126,7 +126,7 @@ const editCita = () => {
         'id_paciente': parseInt(id_paciente),
     }
     console.log(data);
-    axios.put(URL + '/' + data.id, data).then((response) => {
+    axios.put(URL_AGENDA + '/' + data.id, data).then((response) => {
         console.log(response);
         $('#modalEdit').modal('hide');
         $('#titleInputEditar').val('');
@@ -163,7 +163,7 @@ $('#deleteCita').on('click', function(e) {
       });
 })
 const deleteCita = () => {
-    axios.delete(URL + '/' + id_cita).then((response) => {
+    axios.delete(URL_AGENDA + '/' + id_cita).then((response) => {
         console.log(response);
         $('#modaEdit').modal('hide');
         calendar.refetchEvents();
@@ -206,7 +206,7 @@ checkPac.addEventListener('change', (e) => {
         'estado': estado
     }
     // console.log(data);
-    await axios.patch(`${URL}/confirmAsistance/${id_cita}`, data).then((response) => {
+    await axios.patch(`${URL_AGENDA}/confirmAsistance/${id_cita}`, data).then((response) => {
         console.log(response);
         calendar.refetchEvents();
     }).catch((error) => {
