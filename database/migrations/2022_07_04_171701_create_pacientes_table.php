@@ -18,19 +18,14 @@ class CreatePacientesTable extends Migration
             $table->string('nombre');
             $table->string('fecha_nacimiento');
             $table->string('genero');
-            $table->string('diagnostico');
-            $table->string('fecha_valoracion');
             $table->string('telefono');
             $table->string('direccion');
-            $table->string('historial');
-            $table->string('observaciones');
-            $table->string('seguimiento');
             $table->foreignId('id_especialidad')
             ->nullable()
             ->constrained('especialidades')
             ->cascadeOnUpdate()
             ->nullOnDelete();
-            $table->string('status');
+            $table->enum('status', ['alta', 'en_tratamiento', 'inactivo']);
             $table->integer('citas_a_tomar');
         });
     }
