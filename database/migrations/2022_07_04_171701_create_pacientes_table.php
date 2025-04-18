@@ -25,8 +25,7 @@ class CreatePacientesTable extends Migration
             ->constrained('especialidades')
             ->cascadeOnUpdate()
             ->nullOnDelete();
-            $table->enum('status', ['alta', 'en_tratamiento', 'inactivo']);
-            $table->integer('citas_a_tomar');
+            $table->enum('status', ['Alta', 'Activo', 'Inactivo']);
         });
     }
 

@@ -39,7 +39,7 @@
                           <tr>
                             <td>{{ $paciente->nombre }}</td>
                             <td>{{ $paciente->especialidades->nombre }}</td>
-                            <td>{{ $paciente->diagnostico }}</td>
+                            <td>{{ $paciente->infoMedica->diagnostico }}</td>
                             @include('components.badge-pacientes')
                             <td>
                               <div class="form-button-action">

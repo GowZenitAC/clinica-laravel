@@ -1,10 +1,10 @@
 @extends('layout.app')
 
-@section('title', "Detalles del Paciente: $pacientes->nombre")
+@section('title', "Detalles del Paciente: {$pacientes->nombre}")
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('assets/css/pacientes-show.css') }}">
-<div class="container bg-white rounded ">
+<div class="container bg-white rounded">
     <form>
         @csrf
         <div class="col-md-12">
@@ -24,7 +24,6 @@
                                 <label for="fechaNacimiento">Fecha de Nacimiento</label>
                                 <span>{{ $pacientes->fecha_nacimiento }}</span>
                             </div>
-
                         </div>
                         <div class="col-md-6 col-lg-4">
                             <div class="form-group row">
@@ -47,50 +46,47 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Información  -->
-                    <h5>Informacion Médica</h5>
+
+                    <!-- Información Médica -->
+                    <h5>Información Médica</h5>
                     <div class="row">
                         <div class="col-md-6 col-lg-4">
                             <div class="form-group">
-                                <label for="documentosAdjuntos">Diagnóstico</label>
-                                <textarea readonly class="form-control" id="alergias" name="observaciones" rows="3" placeholder="Escriba las observaciones">{{ $pacientes->diagnostico }}</textarea>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 col-lg-4">
-                            <div class="form-group">
-                                <label for="alergias">Observaciones</label>
-                                <textarea class="form-control" readonly id="alergias" name="observaciones" rows="3" placeholder="Escriba las observaciones">{{ $pacientes->observaciones }}</textarea>
+                                <label for="diagnostico">Diagnóstico</label>
+                                <textarea readonly class="form-control" id="diagnostico" name="diagnostico" rows="3" placeholder="Sin diagnóstico">{{ $pacientes->infoMedica->diagnostico ?? 'No disponible' }}</textarea>
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-4">
                             <div class="form-group">
-                                <label for="alergias">Seguimiento</label>
-                                <textarea class="form-control" readonly id="alergias" name="seguimiento" rows="2" placeholder="Seguimiento..."> {{ $pacientes->seguimiento }}</textarea>
+                                <label for="observaciones">Observaciones</label>
+                                <textarea readonly class="form-control" id="observaciones" name="observaciones" rows="3" placeholder="Sin observaciones">{{ $pacientes->infoMedica->observaciones ?? 'No disponible' }}</textarea>
                             </div>
                         </div>
-
+                        <div class="col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="seguimiento">Seguimiento</label>
+                                <textarea readonly class="form-control" id="seguimiento" name="seguimiento" rows="2" placeholder="Sin seguimiento">{{ $pacientes->infoMedica->seguimiento ?? 'No disponible' }}</textarea>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-lg-4">
                             <div class="form-group">
                                 <label for="historialMedico">Historial Médico</label>
-                                <textarea readonly class="form-control" id="alergias" name="historial" rows="3" placeholder="Escriba el historial medico"> {{ $pacientes->historial }}</textarea>
+                                <textarea readonly class="form-control" id="historial" name="historial" rows="3" placeholder="Sin historial médico">{{ $pacientes->infoMedica->historial ?? 'No disponible' }}</textarea>
                             </div>
-
                         </div>
                         <div class="col-md-6 col-lg-4">
                             <div class="form-group row">
-                                <label for="fechaNacimiento">Fecha de Valoración</label>
-                                <span>{{ $pacientes->fecha_valoracion }}</span>
+                                <label for="fechaValoracion">Fecha de Valoración</label>
+                                <span>{{ $pacientes->infoMedica->primera_valoracion ?? 'No disponible' }}</span>
                             </div>
-
                         </div>
                         <div class="col-md-6 col-lg-4">
                             @include('components.edit-icon')
-                            <label class="" for="fechaNacimiento">Citas a tomar (hasta nueva valoración)</label>
+                            <label for="citasATomar">Citas a tomar (hasta nueva valoración)</label>
                             <p class="citasContainer">
-                                <span id="citasTomadas">{{$citas_paciente_hechas}}</span>/<span id="citasTotales">{{$pacientes->citas_a_tomar}}</span>
+                                <span id="citasTomadas">{{ $citas_paciente_hechas }}</span>/<span id="citasTotales">{{ $pacientes->infoMedica->citas_a_tomar }}</span>
                             </p>
                             @include('components.edit_cita_tomar')
                         </div>
@@ -106,7 +102,6 @@
 @endsection
 
 @push('scripts')
-<script src="{{asset('assets/js/pacientes/pacientes-show.js')}}"></script>
+<script src="{{ asset('assets/js/pacientes/pacientes-show.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
 @endpush

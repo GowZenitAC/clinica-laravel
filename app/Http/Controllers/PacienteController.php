@@ -6,7 +6,10 @@ use App\Models\Agenda;
 use App\Models\Paciente;
 use Illuminate\Http\Request;
 use App\Models\Especialidad;
+use App\Models\InformacionMedica;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Facades\DB;
+
 class PacienteController extends Controller
 {
     /**
@@ -36,12 +39,9 @@ class PacienteController extends Controller
     {
         //
         // dd($request->all());
-        //convertir a tipo entero
-        $id_es = $request->id_especialidad;
-        $id_es_convert = intval($id_es);
-        
 
-        $request->validate([
+
+       $validated = $request->validate([
             'nombre' => 'required',
             'fecha_nacimiento' => 'required',
             'genero' => 'required',
@@ -53,32 +53,62 @@ class PacienteController extends Controller
             'fecha_valoracion' => 'required',
             'seguimiento' => 'required',
             'id_especialidad' => 'required',
+            'status' => 'required',
             'citas_a_tomar' => 'required',
         ]);
 
         
-
-     
-        Paciente::create([
-            'nombre' => $request->nombre,
-            'fecha_nacimiento' => $request->fecha_nacimiento,
-            'genero' => $request->genero,
-            'direccion' => $request->direccion,
-            'telefono' => $request->telefono,
-            'diagnostico' => $request->diagnostico,
-            'historial' => $request->historial,
-            'fecha_valoracion' => $request->fecha_valoracion,
-            'observaciones' => $request->observaciones,
-            'seguimiento' => $request->seguimiento,
-            'id_especialidad' => $id_es_convert,
-            'citas_a_tomar' => $request->citas_a_tomar
-        ]);
-        toastify()->success('Equipo creado correctamente', [
-            'duration' => 3500,
-            'position' => 'right',
-            'width' => 400,
-        ]);
-         return redirect()->route('pacientes.index');
+        try { 
+            // Usar una transacción para garantizar consistencia
+            return DB::transaction(function () use ($validated, $request) {
+                // Convertir id_especialidad a entero (esto ya lo haces bien)
+                $id_es_convert = intval($request->id_especialidad);
+                
+                // Crear el paciente y obtener el modelo recién creado
+                $paciente = Paciente::create([
+                    'nombre' => $validated['nombre'],
+                    'fecha_nacimiento' => $validated['fecha_nacimiento'],
+                    'genero' => $validated['genero'],
+                    'direccion' => $validated['direccion'],
+                    'telefono' => $validated['telefono'],
+                    'id_especialidad' => $id_es_convert,
+                    'status' => $validated['status'],
+                ]);
+    
+                // Preparar los datos para informacion_medica
+                $informacionMedicaData = [
+                    'paciente_id' => $paciente->id, // Usar el ID del paciente recién creado
+                    'diagnostico' => $validated['diagnostico'],
+                    'historial' => $validated['historial'],
+                    'primera_valoracion' => $validated['fecha_valoracion'], // Ajustar el nombre del campo
+                    'observaciones' => $validated['observaciones'],
+                    'seguimiento' => $validated['seguimiento'],
+                    'citas_a_tomar' => $validated['citas_a_tomar'],
+                ];
+    
+                // Instanciar el InformacionMedicaController y llamar a un método personalizado
+                $informacionMedicaController = new InformacionMedicaController();
+                $informacionMedicaController->store($informacionMedicaData);
+    
+                // Mostrar mensaje de éxito
+                toastify()->success('Paciente e información médica creados correctamente', [
+                    'duration' => 3500,
+                    'position' => 'right',
+                    'width' => 400,
+                ]);
+    
+                return redirect()->route('pacientes.index');
+            });
+        } catch (\Exception $e) {
+            // Manejar errores y mostrar mensaje
+            toastify()->error('Error al crear el paciente: ' . $e->getMessage(), [
+                'duration' => 3500,
+                'position' => 'right',
+                'width' => 400,
+            ]);
+    
+            return redirect()->back()->withInput();
+        }
     }
 
     /**
@@ -87,7 +117,8 @@ class PacienteController extends Controller
     public function show(string $id)
     {
         //
-        $pacientes = Paciente::findOrFail($id);
+        $pacientes = Paciente::with('infoMedica')->findOrFail($id);
+        // dd($pacientes);
         $citas_paciente_hechas = Paciente::citasHechas($id);
         return view('pacientes.pacientes-show', compact('pacientes', 'citas_paciente_hechas'));
     }
@@ -135,7 +166,8 @@ class PacienteController extends Controller
         $request->validate([
             'citas_a_tomar' => 'required',
         ]);
-        $pacientes =  Paciente::findOrFail($id);
+        $pacientes =  Paciente::with('infoMedica')->findOrFail($id);
+        dd($pacientes->infoMedica->citas_a_tomar);
         $pacientes->update([
             'citas_a_tomar' => $pacientes->citas_a_tomar + $request->citas_a_tomar
         ]);

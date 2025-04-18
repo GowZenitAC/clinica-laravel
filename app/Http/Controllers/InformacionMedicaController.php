@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\InformacionMedica;
 
 class InformacionMedicaController extends Controller
 {
@@ -25,9 +26,19 @@ class InformacionMedicaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(array $data)
     {
-        //
+        return InformacionMedica::create([
+            'paciente_id' => $data['paciente_id'],
+            'diagnostico' => $data['diagnostico'],
+            'historial' => $data['historial'],
+            'primera_valoracion' => $data['primera_valoracion'],
+            'seguimiento' => $data['seguimiento'],
+            'observaciones' => $data['observaciones'],
+            'citas_a_tomar' => $data['citas_a_tomar']
+        ]);
+        // dd($informacionMedica);
+       
     }
 
     /**

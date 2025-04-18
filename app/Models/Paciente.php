@@ -16,14 +16,10 @@ class Paciente extends Model
         'fecha_nacimiento',
         'genero',
         'diagnostico',
-        'fecha_valoracion',
         'telefono',
         'direccion',
-        'historial',
-        'observaciones',
-        'seguimiento',
         'id_especialidad',
-        'citas_a_tomar'
+        'status',
     ];
 
 
@@ -35,6 +31,18 @@ class Paciente extends Model
     public function agenda()
     {
         return $this->hasMany(Agenda::class, 'id_paciente');
+    }
+
+    public function valoraciones(){
+        return $this->hasMany(Valoracion::class, 'paciente_id');
+    }
+
+    public function infoMedica(){
+        return $this->hasOne(InformacionMedica::class, 'paciente_id');
+    }
+
+    public function historialMedico(){
+        return $this->hasMany(HistorialMedico::class, 'paciente_id');
     }
 
     public static function pacientesFilter(){

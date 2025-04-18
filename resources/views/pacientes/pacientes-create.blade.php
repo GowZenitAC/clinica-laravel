@@ -120,6 +120,15 @@
                         </div>
                         <div class="col-md-6 col-lg-4">
                             <div class="form-group">
+                                <label for="historialMedico">Documentos Adjuntos (opcional)</label>
+                                <input type="file" name="documentos_adjuntos[]" multiple class="form-control" id="documentosAdjuntos" />
+                            </div>
+                            @error('historial')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="form-group">
                                 <label for="fechaNacimiento">Fecha de Valoración</label>
                                 <input type="date" name="fecha_valoracion" class="form-control" id="fechaValoracion" />
                             </div>
@@ -127,6 +136,8 @@
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-6 col-lg-4">
                             <div class="form-group">
                                 <label for="nombre">Especialidad</label>
@@ -134,6 +145,16 @@
                                 <input readonly type="text" class="form-control" id="especialidad" value="{{ $especialidad_user->nombre }}" />
                             </div>
                             @error('id_especialidad')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="nombre">Status</label>
+                                <input readonly type="text" class="form-control" id="status" value="Activo" />
+                                <input hidden type="text" class="form-control" name="status" id="status" type="text" value="Activo" />
+                            </div>
+                            @error('status')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
